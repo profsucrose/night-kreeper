@@ -7,16 +7,31 @@ const app = new App({
     signingSecret: process.env.SLACK_SIGNING_SECRET
 })
 
+/**
+ * Generates a psuedorandom number from zero to a specified boundary.
+ * @param {number} bound - Boundary of random number.
+ * @returns {number}
+ */
 function nextInt(bound) {
     return Math.floor(Math.random() * bound)
 }
 
+/**
+ * Generates a formatted date string for Slack.
+ * @constructor
+ * @param {Date} date - Javascript Date object to be used for date string.
+ * @returns {string}
+ */
 function formatDateForSlack(date) {
     const timestamp = (date.getTime() / 1000).toFixed(0)
     const linkToTime = `https://time.is/${timestamp}`
     return `<!date^${timestamp}^{date_short_pretty} at {time}^${linkToTime}|${date}>`
 }
 
+/**
+ * Generates a random Date object for Ken Night.
+ * @returns {Date}
+ */
 function getRandomKenNightDate() {
     const date = new Date()
     date.setDate(date.getDate() + nextInt(7))
