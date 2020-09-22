@@ -1,0 +1,16 @@
+{
+  "name": "night-kreeper",
+  "version": "1.0.0",
+  "description": "Timekeeper of Ken + Cake Nights",
+  "main": "index.js",
+  "scripts": {
+    "start": "node ."
+  },
+  "keywords": [],
+  "author": "profsucrose",
+  "license": "ISC",
+  "dependencies": {
+    "@slack/bolt": "^2.3.0",
+    "dotenv": "^8.2.0"
+  }
+}
