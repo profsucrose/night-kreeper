@@ -19,7 +19,7 @@ function getFormattedDateForSlackMessage(date) {
     const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
     const dayIsToday = (new Date()).getDay() == date.getDay() 
     const day = dayIsToday ? 'Today' : days[date.getDay()]
-    return `${!dayIsToday ? 'next' : ''} *${day} at ${hour}:${minute} ${hour >= 12 ? 'PM' : 'AM'}*`
+    return `*${!dayIsToday ? 'next ' : ''}${day} at ${hour == 12 ? 12 : hour % 12}:${minute < 10 ? '0' : ''}${minute} ${hour >= 12 ? 'PM' : 'AM'}*`
 }
 
 /**
@@ -62,14 +62,14 @@ function getRandomKenNightDate() {
     app.event('message', async ({ event }) => {
         console.log(event)
         const text = event.text
-        const match = text.match(/k+(e|a)h*(n|l)+ ((n|s)+(a|e|i|o|u)+(g|h)h*(t|d)*|nut+)/gi)
+        const match = text.match(/(c|k)+(e|a)h*(n|l)+ ((n|s)+(a|e|i|o|u)+(g|h)h*(t|d)*|nut+)/gi)
         if (/next/gi.test(text)
                 && match.length > 0) {
             await app.client.chat.postMessage({
                 token: process.env.SLACK_BOT_TOKEN,
                 channel: event.channel,
                 text: `The next _${match[0]}_ is ${getFormattedDateForSlackMessage(getRandomKenNightDate())} Ken Time. See you there!`,
-                thread_ts: event.ts
+                thread_ts: event.thread_ts ? event.thread_ts : event.ts
             })
         }
     })
